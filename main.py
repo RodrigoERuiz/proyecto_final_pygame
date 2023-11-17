@@ -20,7 +20,7 @@ while its_running:
         elif evento.type == pygame.MOUSEBUTTONDOWN:
             print(evento)
     
-    SCREEN.blit(backgound,(0,0))
+    SCREEN.blit(backgound,(0,0))  
     
     
     teclas_presionadas = pygame.key.get_pressed()

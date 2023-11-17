@@ -70,12 +70,17 @@ class Jugador :
         self.rectangulo = self.image.get_rect()
         self.esta_cayendo = False
         
-    # def aplicar_gravedad(self):
-    #     if self.is_jump or self.coord_y < ALTO_VENTANA - self.height: #aca estoy aplicando gravedad cuando el personaje salta o cuando no esta en el piso
-    #         #poner la animacion de saltar
-    #         self.coord_y -= self.velocidad_y
-    #         self.velocidad_y -= 1  
-    
+    def aplicar_gravedad(self):
+        if self.is_jump or self.coord_y < ALTO_VENTANA - self.height: #aca estoy aplicando gravedad cuando el personaje salta o cuando no esta en el piso
+            #poner la animacion de saltar
+            self.coord_y -= self.velocidad_y
+            self.velocidad_y -= 1  
+            
+            #Esto controla que el jugador no se vaya por abajo de la pantalla
+            if self.coord_y >= ALTO_VENTANA - self.height:  
+                self.coord_y = ALTO_VENTANA - self.height
+                self.is_jump = False
+                self.velocidad_y = 0
 
     def actualizar(self):
         self.rectangulo.x = self.coord_x
@@ -89,17 +94,7 @@ class Jugador :
             self.frame_actual = (self.frame_actual + 1) % len(self.stand_r)
             self.image = self.stand_r[self.frame_actual]
             
-        if self.is_jump or self.coord_y < ALTO_VENTANA - self.height: #aca estoy aplicando gravedad cuando el personaje salta o cuando no esta en el piso
-            #poner la animacion de saltar
-            self.coord_y -= self.velocidad_y
-            self.velocidad_y -= 1  
-            
-            #Esto controla que el jugador no se vaya por abajo de la pantalla
-            if self.coord_y >= ALTO_VENTANA - self.height:  
-                self.coord_y = ALTO_VENTANA - self.height
-                self.is_jump = False
-                self.velocidad_y = 0
-
+        self.aplicar_gravedad()
         
     def mover(self, lista_teclas: list):
         if lista_teclas[pygame.K_d] and lista_teclas[pygame.K_LSHIFT]:
