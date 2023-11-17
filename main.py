@@ -7,8 +7,8 @@ reloj = pygame.time.Clock()
 
 its_running = True
 
-#jugador = Jugador(70,0,5)
-jugador = Jugador(70,ALTO_VENTANA - 120,5)
+jugador = Jugador(70,0,5)
+#jugador = Jugador(70,ALTO_VENTANA - 120,5)
 
 while its_running:
     reloj.tick(FPS)
