@@ -28,3 +28,10 @@ class SurfaceManager:
     def girar_sprites(lista_imagenes)->list:
        return [pg.transform.flip(imagen, True, False) for imagen in lista_imagenes]
     
+    @staticmethod
+    def preparar_imagen(lista_imagenes:list[pg.Surface], ancho, alto,):
+        lista_retorno = []
+        for imagen in lista_imagenes:
+            imagen_escalada = pg.transform.scale(imagen,(ancho,alto))
+            lista_retorno.append(imagen_escalada)
+        return lista_retorno
