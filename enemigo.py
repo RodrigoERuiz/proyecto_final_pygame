@@ -2,10 +2,12 @@ import pygame
 from auxiliar import SurfaceManager
 from constantes import *
 from jugador import Jugador
+import random
 
-
-class Enemigo():
+class Enemigo(pygame.sprite.Sprite):
+    
     def __init__(self, coord_x, coord_y, velocidad):
+        super().__init__()
         # self.stand_r = SurfaceManager.get_surface_from_spritesheet('recursos/enemies/Mask Dude/Idle (32x32).png',11,1,1,False)
         # self.stand_l = SurfaceManager.get_surface_from_spritesheet('recursos/enemies/Mask Dude/Idle (32x32).png',11,1,1,True)
         # self.walk_r =  SurfaceManager.get_surface_from_spritesheet('recursos/enemies/Mask Dude/Run (32x32).png',11,1,1,False)
@@ -68,7 +70,7 @@ class Enemigo():
         self.frame_actual = 0
         self.animacion_actual = self.stand_l
         self.image = self.animacion_actual[self.frame_actual]
-        self.rectangulo = self.image.get_rect()
+        self.rect = self.image.get_rect()
         self.velocidad  = velocidad
         self.height = self.image.get_height() 
         self.width = self.image.get_width()
@@ -91,22 +93,22 @@ class Enemigo():
     
     
     def controlar_limites_pantalla(self):
-        if self.rectangulo.right >= ANCHO_VENTANA:
-            self.coord_x = ANCHO_VENTANA - self.rectangulo.width
-        elif self.rectangulo.left <= 0:
+        if self.rect.right >= ANCHO_VENTANA:
+            self.coord_x = ANCHO_VENTANA - self.rect.width
+        elif self.rect.left <= 0:
             self.coord_x = 0
             
                 
     def mover(self):
         self.animar()
-        if self.rectangulo.right >= ANCHO_VENTANA:
+        if self.rect.right >= ANCHO_VENTANA:
             self.direccion = -1  # Cambiar a la izquierda si alcanza el borde derecho
             self.animacion_actual = self.walk_l
-        elif self.rectangulo.left <= 0:
+        elif self.rect.left <= 0:
             self.direccion = 1   # Cambiar a la derecha si alcanza el borde izquierdo
             self.animacion_actual = self.walk_r
         # Mover en la dirección correspondiente
-        self.rectangulo.x += self.velocidad * self.direccion
+        self.rect.x += self.velocidad * self.direccion
         
         
     def animar(self):
@@ -120,7 +122,7 @@ class Enemigo():
         self.aplicar_gravedad()
         
         # Actualizar las coordenadas del rectángulo en y
-        self.rectangulo.y = self.coord_y
+        self.rect.y = self.coord_y
 
             
     def actualizar(self):
@@ -128,5 +130,11 @@ class Enemigo():
         self.mover()
         
         
-    
+    @staticmethod
+    def crear_lista_de_enemigos(n,height):
+        lista_retorno = []
         
+        for i in range(n):
+            enemigo = Enemigo(random.randint(0,ANCHO_VENTANA),ALTO_VENTANA-height,random.randint(1,8))
+            lista_retorno.append(enemigo)
+        return lista_retorno

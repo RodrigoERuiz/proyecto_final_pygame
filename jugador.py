@@ -1,6 +1,7 @@
 import pygame
 from constantes import *
 from auxiliar import SurfaceManager
+from plataforma import Plataforma
 
 
 class Jugador :
@@ -68,11 +69,13 @@ class Jugador :
         self.piso = pygame.draw.rect(SCREEN, (255, 0, 0), (0, 521, ANCHO_VENTANA, ALTO_VENTANA))  # Ejemplo de coordenadas y tamaño
         self.height = self.image.get_height() 
         self.width = self.image.get_width()
-        self.rectangulo = self.image.get_rect()
+        self.rect = self.image.get_rect()
         self.esta_cayendo = False
         self.hubo_colision_previa = False
         self.tiempo_entre_colisiones = 1000  # 1000 milisegundos (1 segundo)
         self.tiempo_ultima_colision = 0 
+        self.vida = 100
+        self.en_suelo = False
         
     def aplicar_gravedad(self):
         if self.is_jump or self.coord_y < ALTO_VENTANA - self.height: #aca estoy aplicando gravedad cuando el personaje salta o cuando no esta en el piso
@@ -86,18 +89,23 @@ class Jugador :
                 self.is_jump = False
                 self.velocidad_y = 0
 
-    def actualizar(self, rectangulo_enemigo:pygame.rect):
-        self.rectangulo.x = self.coord_x
-        self.rectangulo.y = self.coord_y
+
+    def detectar_plataforma(self, plataforma:Plataforma):
+        if self.rect.colliderect(plataforma.rect):
+            pass
+
+    def actualizar(self):
+        self.rect.x = self.coord_x
+        self.rect.y = self.coord_y
         self.controlar_limites_pantalla()
         if DEBUG:
-            pygame.draw.rect(SCREEN, (255, 0, 0), self.rectangulo, 2) 
+            pygame.draw.rect(SCREEN, (255, 0, 0), self.rect, 2) 
         tiempo_actual = pygame.time.get_ticks()
         if tiempo_actual - self.frame_tiempo_anterior > self.frame_tiempo_intervalo:
             self.frame_tiempo_anterior = tiempo_actual
             self.frame_actual = (self.frame_actual + 1) % len(self.stand_r)
             self.image = self.stand_r[self.frame_actual]
-        self.hubo_colision(rectangulo_enemigo)
+        #self.hubo_colision(rect_enemigo)
         self.aplicar_gravedad()
         
         
@@ -138,19 +146,21 @@ class Jugador :
             
      
     def controlar_limites_pantalla(self):
-        if self.rectangulo.right >= ANCHO_VENTANA:
-            self.coord_x = ANCHO_VENTANA - self.rectangulo.width
-        elif self.rectangulo.left <= 0:
+        if self.rect.right >= ANCHO_VENTANA:
+            self.coord_x = ANCHO_VENTANA - self.rect.width
+        elif self.rect.left <= 0:
             self.coord_x = 0
         if DEBUG:
             pygame.draw.rect(SCREEN, (255, 0, 0), (0, 521, ANCHO_VENTANA, ALTO_VENTANA))  # Ejemplo de coordenadas y tamaño
         
-    def hubo_colision(self, rectangulo: pygame.Rect):
+    def hubo_colision(self, rect: pygame.Rect):
         tiempo_actual = pygame.time.get_ticks()
 
         if tiempo_actual - self.tiempo_ultima_colision >= self.tiempo_entre_colisiones:
-            if self.rectangulo.colliderect(rectangulo) and not self.hubo_colision_previa:
+            if self.rect.colliderect(rect) and not self.hubo_colision_previa:
                 print("Hubo colisión")
+                self.vida -= 10
+                print(f'Te quedan: {self.vida} puntos de vida')
                 self.hubo_colision_previa = True
                 self.tiempo_ultima_colision = tiempo_actual
         else:
