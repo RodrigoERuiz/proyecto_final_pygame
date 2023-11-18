@@ -2,6 +2,7 @@ import pygame
 from constantes import *
 from auxiliar import SurfaceManager
 
+
 class Jugador :
     def __init__(self, coord_x, coord_y, velocidad) -> None:
         self.stand_r = [
@@ -69,6 +70,9 @@ class Jugador :
         self.width = self.image.get_width()
         self.rectangulo = self.image.get_rect()
         self.esta_cayendo = False
+        self.hubo_colision_previa = False
+        self.tiempo_entre_colisiones = 1000  # 1000 milisegundos (1 segundo)
+        self.tiempo_ultima_colision = 0 
         
     def aplicar_gravedad(self):
         if self.is_jump or self.coord_y < ALTO_VENTANA - self.height: #aca estoy aplicando gravedad cuando el personaje salta o cuando no esta en el piso
@@ -76,13 +80,13 @@ class Jugador :
             self.coord_y -= self.velocidad_y
             self.velocidad_y -= 1  
             
-            #Esto controla que el jugador no se vaya por abajo de la pantalla
+            #Esto controla que el jugador no se vaya por abajo de la pantalla ARREGLAR INTEGRAR A COTROLAR_LIMITES_PANTALLA
             if self.coord_y >= ALTO_VENTANA - self.height:  
                 self.coord_y = ALTO_VENTANA - self.height
                 self.is_jump = False
                 self.velocidad_y = 0
 
-    def actualizar(self):
+    def actualizar(self, rectangulo_enemigo:pygame.rect):
         self.rectangulo.x = self.coord_x
         self.rectangulo.y = self.coord_y
         self.controlar_limites_pantalla()
@@ -93,8 +97,9 @@ class Jugador :
             self.frame_tiempo_anterior = tiempo_actual
             self.frame_actual = (self.frame_actual + 1) % len(self.stand_r)
             self.image = self.stand_r[self.frame_actual]
-            
+        self.hubo_colision(rectangulo_enemigo)
         self.aplicar_gravedad()
+        
         
     def mover(self, lista_teclas: list):
         if lista_teclas[pygame.K_d] and lista_teclas[pygame.K_LSHIFT]:
@@ -129,7 +134,7 @@ class Jugador :
             #SALTAR
         if lista_teclas[pygame.K_SPACE] and not self.is_jump:
             self.is_jump = True
-            self.velocidad_y = 10 
+            self.velocidad_y = 15 
             
      
     def controlar_limites_pantalla(self):
@@ -137,18 +142,19 @@ class Jugador :
             self.coord_x = ANCHO_VENTANA - self.rectangulo.width
         elif self.rectangulo.left <= 0:
             self.coord_x = 0
-        # if self.rectangulo.bottom >= ALTO_VENTANA:
-        #     self.coord_y = ALTO_VENTANA - self.rectangulo.height
-        #     self.coord_y = 400                      #Sacar el hardcodeo
-
-
-            #self.rectangulo.bottom = self.piso.top
-        # elif self.coord_y <= 0:
-        #     self.coord_y = 0
         if DEBUG:
             pygame.draw.rect(SCREEN, (255, 0, 0), (0, 521, ANCHO_VENTANA, ALTO_VENTANA))  # Ejemplo de coordenadas y tamaño
         
+    def hubo_colision(self, rectangulo: pygame.Rect):
+        tiempo_actual = pygame.time.get_ticks()
 
+        if tiempo_actual - self.tiempo_ultima_colision >= self.tiempo_entre_colisiones:
+            if self.rectangulo.colliderect(rectangulo) and not self.hubo_colision_previa:
+                print("Hubo colisión")
+                self.hubo_colision_previa = True
+                self.tiempo_ultima_colision = tiempo_actual
+        else:
+            self.hubo_colision_previa = False
 
 
 #(69, 521) x,y piso
