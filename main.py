@@ -32,18 +32,20 @@ while its_running:
     
     
     teclas_presionadas = pygame.key.get_pressed()
+    SCREEN.blit(plataforma.image,plataforma.rect)
+    
     #Jugador
     jugador.mover(teclas_presionadas)
-    jugador.actualizar()
+    jugador.actualizar(plataforma)
     SCREEN.blit(pygame.transform.scale(jugador.animacion_actual[jugador.frame_actual],(jugador.height,jugador.width)), jugador.rect)
     
     
     #plataforma
-    if plataforma.rect.colliderect(jugador.rect):
-        if plataforma.rect.top < jugador.rect.bottom:
+    if plataforma.rect.colliderect(jugador.rect): #sacar esto de acá
+        if plataforma.rect.top <= jugador.rect.bottom:
             jugador.velocidad_y = 0
-    
-    
+            jugador.is_jump = False
+
     
     #Enemigos
     for enemigo in grupo_enemigos:
@@ -53,7 +55,7 @@ while its_running:
         SCREEN.blit(pygame.transform.scale(enemigo.animacion_actual[enemigo.frame_actual],(enemigo.height,enemigo.width)), enemigo.rect)
 
 
-    SCREEN.blit(plataforma.image,plataforma.rect)
+    
     pygame.display.update()
 
 

@@ -66,7 +66,7 @@ class Jugador :
         self.is_jump = False
         self.image= self.animacion_actual[self.frame_actual]
         self.velocidad_y = -10
-        self.piso = pygame.draw.rect(SCREEN, (255, 0, 0), (0, 521, ANCHO_VENTANA, ALTO_VENTANA))  # Ejemplo de coordenadas y tamaño
+        #self.piso = pygame.draw.rect(SCREEN, (255, 0, 0), (0, 521, ANCHO_VENTANA, ALTO_VENTANA))  # Ejemplo de coordenadas y tamaño
         self.height = self.image.get_height() 
         self.width = self.image.get_width()
         self.rect = self.image.get_rect()
@@ -90,16 +90,17 @@ class Jugador :
                 self.velocidad_y = 0
 
 
-    def detectar_plataforma(self, plataforma:Plataforma):
-        if self.rect.colliderect(plataforma.rect):
-            pass
+    # def detectar_plataforma(self, plataforma:Plataforma): #tiene la misma logica en el main
+    #     if self.rect.colliderect(plataforma.rect):
+    #         if self.rect.bottom <= plataforma.rect.top:
+    #             self.is_jump = False
+    #             #self.rect.bottom = plataforma.rect.top
+    #             self.velocidad_y = 0
 
-    def actualizar(self):
+    def actualizar(self,plaforma:Plataforma):
         self.rect.x = self.coord_x
         self.rect.y = self.coord_y
         self.controlar_limites_pantalla()
-        if DEBUG:
-            pygame.draw.rect(SCREEN, (255, 0, 0), self.rect, 2) 
         tiempo_actual = pygame.time.get_ticks()
         if tiempo_actual - self.frame_tiempo_anterior > self.frame_tiempo_intervalo:
             self.frame_tiempo_anterior = tiempo_actual
@@ -107,6 +108,7 @@ class Jugador :
             self.image = self.stand_r[self.frame_actual]
         #self.hubo_colision(rect_enemigo)
         self.aplicar_gravedad()
+        #self.detectar_plataforma(plaforma)
         
         
     def mover(self, lista_teclas: list):
@@ -150,8 +152,7 @@ class Jugador :
             self.coord_x = ANCHO_VENTANA - self.rect.width
         elif self.rect.left <= 0:
             self.coord_x = 0
-        if DEBUG:
-            pygame.draw.rect(SCREEN, (255, 0, 0), (0, 521, ANCHO_VENTANA, ALTO_VENTANA))  # Ejemplo de coordenadas y tamaño
+
         
     def hubo_colision(self, rect: pygame.Rect):
         tiempo_actual = pygame.time.get_ticks()
