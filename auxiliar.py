@@ -1,4 +1,5 @@
-import pygame as pg
+import pygame as pg, random
+from plataforma import *
 
 class SurfaceManager:
 
@@ -35,3 +36,11 @@ class SurfaceManager:
             imagen_escalada = pg.transform.scale(imagen,(ancho,alto))
             lista_retorno.append(imagen_escalada)
         return lista_retorno
+    
+    
+@staticmethod
+def mover_plataforma(lista_plataformas:list[Plataforma]):
+    for plataforma in lista_plataformas:        
+        plataforma.rect.x += random.randint(3,20)
+        plataforma.rect.y += random.randint(3,20)
+        

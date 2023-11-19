@@ -46,7 +46,7 @@ class Jugador :
                     ]
 
         #imagenes de animacion escaladas
-        self.run_r = SurfaceManager.preparar_imagen(self.run_r,120,120)
+        self.run_r = SurfaceManager.preparar_imagen(self.run_r,120 ,120)
         self.run_l = SurfaceManager.girar_sprites(self.run_r)
         self.stand_r = SurfaceManager.preparar_imagen(self.stand_r,120,120)
         self.stand_l = SurfaceManager.girar_sprites(self.stand_r)
@@ -88,6 +88,7 @@ class Jugador :
                 self.coord_y = ALTO_VENTANA - self.height
                 self.is_jump = False
                 self.velocidad_y = 0
+        
 
 
     # def detectar_plataforma(self, plataforma:Plataforma): #tiene la misma logica en el main
@@ -97,9 +98,14 @@ class Jugador :
     #             #self.rect.bottom = plataforma.rect.top
     #             self.velocidad_y = 0
 
-    def actualizar(self,plaforma:Plataforma):
+    def actualizar(self,plataforma:Plataforma):
         self.rect.x = self.coord_x
         self.rect.y = self.coord_y
+        ################ Si el jugador está sobre la plataforma###############
+        if self.rect.colliderect(plataforma.rect) and self.velocidad_y >= 0:    #aplicarlo a la lista de plataformas
+            self.coord_x += plataforma.velocidad_x
+            self.coord_y += plataforma.velocidad_y
+        ######################################################################
         self.controlar_limites_pantalla()
         tiempo_actual = pygame.time.get_ticks()
         if tiempo_actual - self.frame_tiempo_anterior > self.frame_tiempo_intervalo:
