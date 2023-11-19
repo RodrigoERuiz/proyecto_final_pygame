@@ -44,7 +44,7 @@ class Jugador :
                         pygame.image.load('recursos/sprites/Run/8.png'),
                         pygame.image.load('recursos/sprites/Run/9.png')
                     ]
-       
+
         #imagenes de animacion escaladas
         self.run_r = SurfaceManager.preparar_imagen(self.run_r,120,120)
         self.run_l = SurfaceManager.girar_sprites(self.run_r)

@@ -19,43 +19,45 @@ class Enemigo(pygame.sprite.Sprite):
         # self.walk_r = SurfaceManager.preparar_imagen(self.walk_r,80,80)
         # self.walk_l = SurfaceManager.preparar_imagen(self.walk_l,80,80)
         self.stand_r = [
-                        pygame.image.load('recursos/sprites/Stand/0.png'),
-                        pygame.image.load('recursos/sprites/Stand/1.png'),
-                        pygame.image.load('recursos/sprites/Stand/2.png'),
-                        pygame.image.load('recursos/sprites/Stand/3.png'),
-                        pygame.image.load('recursos/sprites/Stand/4.png'),
-                        pygame.image.load('recursos/sprites/Stand/5.png'),
-                        pygame.image.load('recursos/sprites/Stand/6.png'),
-                        pygame.image.load('recursos/sprites/Stand/7.png'),
-                        pygame.image.load('recursos/sprites/Stand/8.png'),
-                        pygame.image.load('recursos/sprites/Stand/9.png')
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\IDLE\IDLE_000.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\IDLE\IDLE_001.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\IDLE\IDLE_002.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\IDLE\IDLE_003.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\IDLE\IDLE_004.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\IDLE\IDLE_005.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\IDLE\IDLE_006.png'),
                     ]
         
         self.walk_r = [
-                        pygame.image.load('recursos/sprites/Walk/0.png'),
-                        pygame.image.load('recursos/sprites/Walk/1.png'),
-                        pygame.image.load('recursos/sprites/Walk/2.png'),
-                        pygame.image.load('recursos/sprites/Walk/3.png'),
-                        pygame.image.load('recursos/sprites/Walk/4.png'),
-                        pygame.image.load('recursos/sprites/Walk/5.png'),
-                        pygame.image.load('recursos/sprites/Walk/6.png'),
-                        pygame.image.load('recursos/sprites/Walk/7.png'),
-                        pygame.image.load('recursos/sprites/Walk/8.png'),
-                        pygame.image.load('recursos/sprites/Walk/9.png')
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\WALK\WALK_000.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\WALK\WALK_001.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\WALK\WALK_002.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\WALK\WALK_003.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\WALK\WALK_004.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\WALK\WALK_005.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\WALK\WALK_006.png'),
+
                     ]
         
         self.run_r = [
-                        pygame.image.load('recursos/sprites/Run/0.png'),
-                        pygame.image.load('recursos/sprites/Run/1.png'),
-                        pygame.image.load('recursos/sprites/Run/2.png'),
-                        pygame.image.load('recursos/sprites/Run/3.png'),
-                        pygame.image.load('recursos/sprites/Run/4.png'),
-                        pygame.image.load('recursos/sprites/Run/5.png'),
-                        pygame.image.load('recursos/sprites/Run/6.png'),
-                        pygame.image.load('recursos/sprites/Run/7.png'),
-                        pygame.image.load('recursos/sprites/Run/8.png'),
-                        pygame.image.load('recursos/sprites/Run/9.png')
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\RUN\RUN_000.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\RUN\RUN_001.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\RUN\RUN_002.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\RUN\RUN_003.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\RUN\RUN_004.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\RUN\RUN_005.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\RUN\RUN_006.png'),
                     ]
+        self.attack_r = [
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\ATTAK\ATTAK_000.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\ATTAK\ATTAK_001.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\ATTAK\ATTAK_002.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\ATTAK\ATTAK_003.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\ATTAK\ATTAK_004.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\ATTAK\ATTAK_005.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\ATTAK\ATTAK_006.png'),
+
+                        ]
        
         #imagenes de animacion escaladas
         self.run_r = SurfaceManager.preparar_imagen(self.run_r,120,120)
@@ -64,6 +66,8 @@ class Enemigo(pygame.sprite.Sprite):
         self.stand_l = SurfaceManager.girar_sprites(self.stand_r)
         self.walk_r = SurfaceManager.preparar_imagen(self.walk_r, 120,120)
         self.walk_l = SurfaceManager.girar_sprites(self.walk_r)
+        self.attack_r = SurfaceManager.preparar_imagen(self.attack_r,120,120)
+        self.attack_l= SurfaceManager.girar_sprites(self.attack_r)
         
         self.coord_x = coord_x
         self.coord_y = coord_y

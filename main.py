@@ -45,7 +45,7 @@ while its_running:
         if plataforma.rect.top <= jugador.rect.bottom:
             jugador.velocidad_y = 0
             jugador.is_jump = False
-
+    
     
     #Enemigos
     for enemigo in grupo_enemigos:
