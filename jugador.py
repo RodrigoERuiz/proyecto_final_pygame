@@ -98,13 +98,14 @@ class Jugador :
     #             #self.rect.bottom = plataforma.rect.top
     #             self.velocidad_y = 0
 
-    def actualizar(self,plataforma:Plataforma):
+    def actualizar(self,plataformas:list[Plataforma]):
         self.rect.x = self.coord_x
         self.rect.y = self.coord_y
         ################ Si el jugador está sobre la plataforma###############
-        if self.rect.colliderect(plataforma.rect) and self.velocidad_y >= 0:    #aplicarlo a la lista de plataformas
-            self.coord_x += plataforma.velocidad_x
-            self.coord_y += plataforma.velocidad_y
+        for plataforma in plataformas:
+            if self.rect.colliderect(plataforma.rect) and self.velocidad_y >= 0:    #aplicarlo a la lista de plataformas
+                self.coord_x += plataforma.velocidad_x
+                self.coord_y += plataforma.velocidad_y
         ######################################################################
         self.controlar_limites_pantalla()
         tiempo_actual = pygame.time.get_ticks()

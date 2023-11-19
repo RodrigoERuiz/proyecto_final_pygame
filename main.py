@@ -49,7 +49,7 @@ while its_running:
     
     #Jugador
     jugador.mover(teclas_presionadas)
-    jugador.actualizar(plataforma)
+    jugador.actualizar(plataformas)
     SCREEN.blit(pygame.transform.scale(jugador.animacion_actual[jugador.frame_actual],(jugador.height,jugador.width)), jugador.rect)
     
     
