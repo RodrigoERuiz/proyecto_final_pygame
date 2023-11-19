@@ -2,6 +2,7 @@ import pygame
 from constantes import *
 from auxiliar import SurfaceManager
 from plataforma import Plataforma
+from proyectil import Proyectil
 
 
 class Jugador :
@@ -103,7 +104,7 @@ class Jugador :
         self.rect.y = self.coord_y
         ################ Si el jugador está sobre la plataforma###############
         for plataforma in plataformas:
-            if self.rect.colliderect(plataforma.rect) and self.velocidad_y >= 0:    #aplicarlo a la lista de plataformas
+            if self.rect.colliderect(plataforma.rect) and self.velocidad_y >= 0:    
                 self.coord_x += plataforma.velocidad_x
                 self.coord_y += plataforma.velocidad_y
         ######################################################################
@@ -118,7 +119,7 @@ class Jugador :
         #self.detectar_plataforma(plaforma)
         
         
-    def mover(self, lista_teclas: list):
+    def mover(self, lista_teclas: list,lista_eventos, grupo_proyectiles:pygame.sprite.Group ):
         if lista_teclas[pygame.K_d] and lista_teclas[pygame.K_LSHIFT]:
             self.animacion_actual = self.run_r
             self.is_looking_right = True
@@ -152,6 +153,12 @@ class Jugador :
         if lista_teclas[pygame.K_SPACE] and not self.is_jump:
             self.is_jump = True
             self.velocidad_y = 15 
+        #disaparo
+        for evento in lista_eventos:
+            if  evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_e:
+                    proyectil = self.disparar()
+                    grupo_proyectiles.add(proyectil)
             
      
     def controlar_limites_pantalla(self):
@@ -173,6 +180,9 @@ class Jugador :
                 self.tiempo_ultima_colision = tiempo_actual
         else:
             self.hubo_colision_previa = False
-
+            
+    def disparar(self):
+        proyectil = Proyectil(self.rect.centerx, self.rect.centery, 1 if self.is_looking_right else -1)
+        return proyectil
 
 #(69, 521) x,y piso

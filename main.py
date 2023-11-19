@@ -24,6 +24,11 @@ plataformas.add(plataforma)
 plataformas.add(plataforma_dos)
 plataformas.add(plataforma_tres)
 
+# Crear un grupo para los proyectiles
+grupo_proyectiles = pygame.sprite.Group()
+
+
+
 while its_running:
     reloj.tick(FPS)
     lista_eventos = pygame.event.get()
@@ -48,7 +53,7 @@ while its_running:
     plataformas.draw(SCREEN)
     
     #Jugador
-    jugador.mover(teclas_presionadas)
+    jugador.mover(teclas_presionadas,lista_eventos,grupo_proyectiles)
     jugador.actualizar(plataformas)
     SCREEN.blit(pygame.transform.scale(jugador.animacion_actual[jugador.frame_actual],(jugador.height,jugador.width)), jugador.rect)
     
@@ -69,7 +74,8 @@ while its_running:
         SCREEN.blit(pygame.transform.scale(enemigo.animacion_actual[enemigo.frame_actual],(enemigo.height,enemigo.width)), enemigo.rect)
         
 
-
+    grupo_proyectiles.update()
+    grupo_proyectiles.draw(SCREEN)
     
     pygame.display.update()
 
