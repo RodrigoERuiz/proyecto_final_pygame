@@ -9,16 +9,6 @@ class Enemigo(pygame.sprite.Sprite):
     
     def __init__(self, coord_x, coord_y, velocidad):
         super().__init__()
-        # self.stand_r = SurfaceManager.get_surface_from_spritesheet('recursos/enemies/Mask Dude/Idle (32x32).png',11,1,1,False)
-        # self.stand_l = SurfaceManager.get_surface_from_spritesheet('recursos/enemies/Mask Dude/Idle (32x32).png',11,1,1,True)
-        # self.walk_r =  SurfaceManager.get_surface_from_spritesheet('recursos/enemies/Mask Dude/Run (32x32).png',11,1,1,False)
-        # self.walk_l = SurfaceManager.get_surface_from_spritesheet('recursos/enemies/Mask Dude/Run (32x32).png',11,1,1,True)
-
-        # #lista de imagenes escaldas
-        # self.stand_r = SurfaceManager.preparar_imagen(self.stand_r,80,80)
-        # self.stand_l = SurfaceManager.preparar_imagen(self.stand_l,80,80)
-        # self.walk_r = SurfaceManager.preparar_imagen(self.walk_r,80,80)
-        # self.walk_l = SurfaceManager.preparar_imagen(self.walk_l,80,80)
         self.stand_r = [
                         pygame.image.load('recursos\sprites\enemies\ork_sword\IDLE\IDLE_000.png'),
                         pygame.image.load('recursos\sprites\enemies\ork_sword\IDLE\IDLE_001.png'),
@@ -59,6 +49,15 @@ class Enemigo(pygame.sprite.Sprite):
                         pygame.image.load('recursos\sprites\enemies\ork_sword\ATTAK\ATTAK_006.png'),
 
                         ]
+        self.die_r = [
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\DIE\DIE_000.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\DIE\DIE_001.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\DIE\DIE_002.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\DIE\DIE_003.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\DIE\DIE_004.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\DIE\DIE_005.png'),
+                        pygame.image.load('recursos\sprites\enemies\ork_sword\DIE\DIE_006.png')
+                    ]
        
         #imagenes de animacion escaladas
         self.run_r = SurfaceManager.preparar_imagen(self.run_r,120,120)
@@ -69,6 +68,8 @@ class Enemigo(pygame.sprite.Sprite):
         self.walk_l = SurfaceManager.girar_sprites(self.walk_r)
         self.attack_r = SurfaceManager.preparar_imagen(self.attack_r,120,120)
         self.attack_l= SurfaceManager.girar_sprites(self.attack_r)
+        self.die_r = SurfaceManager.preparar_imagen(self.die_r,120,120)
+        self.die_l = SurfaceManager.girar_sprites(self.die_r)
         
         self.coord_x = coord_x
         self.coord_y = coord_y
@@ -92,7 +93,13 @@ class Enemigo(pygame.sprite.Sprite):
         for disparo in disparos:
             if self.rect.colliderect(disparo.rect):
                 self.lives -= 1
-    
+                
+    def hacer_animacion(self, animacion:'str'):
+        match(animacion):
+            
+            case 'die':
+                self.animacion_actual = self.die_r
+        
     
     
     

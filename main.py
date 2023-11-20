@@ -42,9 +42,6 @@ while its_running:
     SCREEN.blit(backgound,(0,0))  
     
     
-    
-    
-    
     pygame.draw.rect(SCREEN, (255, 0, 0), jugador.rect, 2)
     for enemigo in grupo_enemigos:
         pygame.draw.rect(SCREEN, (0, 255, 0), enemigo.rect, 2)
@@ -69,15 +66,17 @@ while its_running:
     
     #Enemigos
     for enemigo in grupo_enemigos:
+        SCREEN.blit(pygame.transform.scale(enemigo.animacion_actual[enemigo.frame_actual],(enemigo.height,enemigo.width)), enemigo.rect)
         enemigo.actualizar()
         jugador.hubo_colision(enemigo.rect)
-        enemigo.detectar_disparos(grupo_proyectiles)
-        if enemigo.esta_muerto():
-            enemigo.kill()
-            
-        SCREEN.blit(pygame.transform.scale(enemigo.animacion_actual[enemigo.frame_actual],(enemigo.height,enemigo.width)), enemigo.rect)
+        for proyectil in grupo_proyectiles:
+            enemigo.detectar_disparos(grupo_proyectiles)
+            if proyectil.rect.colliderect(enemigo.rect) or proyectil.rect.right > ANCHO_VENTANA or proyectil.rect.left < 0:
+                proyectil.kill()
+            if enemigo.esta_muerto():
+                enemigo.kill()
+                
         
-
     grupo_proyectiles.update()
     grupo_proyectiles.draw(SCREEN)
     
