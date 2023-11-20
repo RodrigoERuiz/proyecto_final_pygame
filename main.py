@@ -4,6 +4,8 @@ from enemigo import Enemigo
 from plataforma import *
 import pygame
 from auxiliar import *
+from item import Item
+
 
 pygame.init()
 reloj = pygame.time.Clock()
@@ -26,6 +28,7 @@ plataformas.add(plataforma_tres)
 
 grupo_proyectiles = pygame.sprite.Group()
 
+fruta = Item(425,358)
 
 
 while its_running:
@@ -53,7 +56,7 @@ while its_running:
     
     #plataforma
     for plataforma in plataformas:
-        if DEBUG:
+        if DEBUG:   
             SCREEN.blit(plataforma.image,plataforma.rect)
         plataforma.mover_plataforma()
         if plataforma.rect.colliderect(jugador.rect): #sacar esto de acá
@@ -88,8 +91,9 @@ while its_running:
     grupo_proyectiles.update()
     grupo_proyectiles.draw(SCREEN)
     SurfaceManager.draw_text(SCREEN, f'Puntuación: {str(jugador.score)}', 25, ANCHO_VENTANA // 2, 10)
-    
-    
+    SurfaceManager.draw_dibujar_barra_de_vida(SCREEN,5,5,jugador.vida)
+    fruta.draw(SCREEN)
+    fruta.update()
     pygame.display.update()
 
 

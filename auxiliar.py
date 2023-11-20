@@ -45,3 +45,13 @@ class SurfaceManager:
         text_rect = text_surface.get_rect()
         text_rect.midtop = (x,y)
         surface.blit(text_surface, text_rect)
+        
+    @staticmethod
+    def draw_dibujar_barra_de_vida(pantalla: pygame.Surface, x, y, porcentaje_vida: int):
+        ancho_barra = 100
+        alto_barra = 10
+        relleno = (porcentaje_vida / 100) * ancho_barra
+        borde_barra = pygame.Rect(x, y, ancho_barra, alto_barra)
+        relleno = pygame.Rect(x, y, relleno, alto_barra)
+        pygame.draw.rect(pantalla, 'green', relleno)
+        pygame.draw.rect(pantalla, 'white', borde_barra, 2)
