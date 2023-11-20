@@ -24,7 +24,6 @@ plataformas.add(plataforma)
 plataformas.add(plataforma_dos)
 plataformas.add(plataforma_tres)
 
-# Crear un grupo para los proyectiles
 grupo_proyectiles = pygame.sprite.Group()
 
 
@@ -41,15 +40,12 @@ while its_running:
     
     SCREEN.blit(backgound,(0,0))  
     
-    
-    pygame.draw.rect(SCREEN, (255, 0, 0), jugador.rect, 2)
-    for enemigo in grupo_enemigos:
-        pygame.draw.rect(SCREEN, (0, 255, 0), enemigo.rect, 2)
     teclas_presionadas = pygame.key.get_pressed()
-    #SCREEN.blit(plataforma.image,plataforma.rect)
     plataformas.draw(SCREEN)
     
     #Jugador
+    if DEBUG:
+        pygame.draw.rect(SCREEN, (255, 0, 0), jugador.rect, 2)
     jugador.mover(teclas_presionadas,lista_eventos,grupo_proyectiles)
     jugador.actualizar(plataformas)
     SCREEN.blit(pygame.transform.scale(jugador.animacion_actual[jugador.frame_actual],(jugador.height,jugador.width)), jugador.rect)
@@ -57,6 +53,8 @@ while its_running:
     
     #plataforma
     for plataforma in plataformas:
+        if DEBUG:
+            SCREEN.blit(plataforma.image,plataforma.rect)
         plataforma.mover_plataforma()
         if plataforma.rect.colliderect(jugador.rect): #sacar esto de acá
             if plataforma.rect.top <= jugador.rect.bottom:
@@ -66,6 +64,9 @@ while its_running:
     
     #Enemigos
     for enemigo in grupo_enemigos:
+        if DEBUG:
+            pygame.draw.rect(SCREEN, (0, 255, 0), enemigo.rect, 2)
+            
         SCREEN.blit(pygame.transform.scale(enemigo.animacion_actual[enemigo.frame_actual],(enemigo.height,enemigo.width)), enemigo.rect)
         enemigo.actualizar()
         jugador.hubo_colision(enemigo.rect)
@@ -74,11 +75,20 @@ while its_running:
             if proyectil.rect.colliderect(enemigo.rect) or proyectil.rect.right > ANCHO_VENTANA or proyectil.rect.left < 0:
                 proyectil.kill()
             if enemigo.esta_muerto():
+                jugador.score += 10
+                enemigo.hacer_animacion('die')
                 enemigo.kill()
+                enemigo.actualizar()
+                # tiempo_actual = pygame.time.get_ticks()
+                # if tiempo_actual-enemigo.frame_tiempo_anterior > enemigo.frame_tiempo_intervalo:
+                #     enemigo.kill()
+                
                 
         
     grupo_proyectiles.update()
     grupo_proyectiles.draw(SCREEN)
+    SurfaceManager.draw_text(SCREEN, f'Puntuación: {str(jugador.score)}', 25, ANCHO_VENTANA // 2, 10)
+    
     
     pygame.display.update()
 

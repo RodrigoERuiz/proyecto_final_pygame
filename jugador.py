@@ -77,6 +77,7 @@ class Jugador :
         self.tiempo_ultima_colision = 0 
         self.vida = 100
         self.en_suelo = False
+        self.score = 0
         
     def aplicar_gravedad(self):
         if self.is_jump or self.coord_y < ALTO_VENTANA - self.height: #aca estoy aplicando gravedad cuando el personaje salta o cuando no esta en el piso
@@ -90,14 +91,6 @@ class Jugador :
                 self.is_jump = False
                 self.velocidad_y = 0
         
-
-
-    # def detectar_plataforma(self, plataforma:Plataforma): #tiene la misma logica en el main
-    #     if self.rect.colliderect(plataforma.rect):
-    #         if self.rect.bottom <= plataforma.rect.top:
-    #             self.is_jump = False
-    #             #self.rect.bottom = plataforma.rect.top
-    #             self.velocidad_y = 0
 
     def actualizar(self,plataformas:list[Plataforma]):
         self.rect.x = self.coord_x
@@ -114,9 +107,9 @@ class Jugador :
             self.frame_tiempo_anterior = tiempo_actual
             self.frame_actual = (self.frame_actual + 1) % len(self.stand_r)
             self.image = self.stand_r[self.frame_actual]
-        #self.hubo_colision(rect_enemigo)
+
         self.aplicar_gravedad()
-        #self.detectar_plataforma(plaforma)
+
         
         
     def mover(self, lista_teclas: list,lista_eventos, grupo_proyectiles:pygame.sprite.Group ):

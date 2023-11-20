@@ -85,6 +85,7 @@ class Enemigo(pygame.sprite.Sprite):
         self.frame_tiempo_anterior = pygame.time.get_ticks()
         self.frame_tiempo_intervalo = 30
         self.lives = 3
+        self.rect.y = self.coord_y #verficar si conviene dejarlo afuera
         
     def esta_muerto(self):
         return self.lives == 0
@@ -94,11 +95,11 @@ class Enemigo(pygame.sprite.Sprite):
             if self.rect.colliderect(disparo.rect):
                 self.lives -= 1
                 
-    def hacer_animacion(self, animacion:'str'):
-        match(animacion):
-            
-            case 'die':
-                self.animacion_actual = self.die_r
+    def hacer_animacion(self, animacion: str):
+        if animacion == 'die':
+            self.animacion_actual = self.die_r
+            self.frame_actual = 0  # Reiniciar el índice del fotograma
+
         
     
     
@@ -141,11 +142,8 @@ class Enemigo(pygame.sprite.Sprite):
             self.frame_actual = (self.frame_actual + 1) % len(self.stand_r)
             self.image = self.stand_r[self.frame_actual]
                 
-        # Aplicar gravedad
         self.aplicar_gravedad()
-        
-        # Actualizar las coordenadas del rectángulo en y
-        self.rect.y = self.coord_y
+        #self.rect.y = self.coord_y #coloca a los enemigos en el suelo
 
             
     def actualizar(self):

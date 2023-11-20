@@ -38,9 +38,10 @@ class SurfaceManager:
         return lista_retorno
     
     
-@staticmethod
-def mover_plataforma(lista_plataformas:list[Plataforma]):
-    for plataforma in lista_plataformas:        
-        plataforma.rect.x += random.randint(3,20)
-        plataforma.rect.y += random.randint(3,20)
-        
+    @staticmethod
+    def draw_text(surface: pygame.Surface, text: str, size: int, x, y):
+        font = pygame.font.SysFont('Serif', size)
+        text_surface = font.render(text, True, 'white')
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (x,y)
+        surface.blit(text_surface, text_rect)

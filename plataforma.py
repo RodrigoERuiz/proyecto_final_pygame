@@ -10,8 +10,8 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.velocidad_x = 5
-        self.velocidad_y = 5
+        self.velocidad_x = 0 #cambiar valores para mover
+        self.velocidad_y = 0 #cambiar valores para mover
 
     def mover_plataforma(self):     
         self.rect.x += self.velocidad_x
