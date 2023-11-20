@@ -70,7 +70,11 @@ while its_running:
     #Enemigos
     for enemigo in grupo_enemigos:
         enemigo.actualizar()
-        jugador.hubo_colision(enemigo.rect)  
+        jugador.hubo_colision(enemigo.rect)
+        enemigo.detectar_disparos(grupo_proyectiles)
+        if enemigo.esta_muerto():
+            enemigo.kill()
+            
         SCREEN.blit(pygame.transform.scale(enemigo.animacion_actual[enemigo.frame_actual],(enemigo.height,enemigo.width)), enemigo.rect)
         
 

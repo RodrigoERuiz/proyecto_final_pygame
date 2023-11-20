@@ -3,6 +3,7 @@ from auxiliar import SurfaceManager
 from constantes import *
 from jugador import Jugador
 import random
+from proyectil import *
 
 class Enemigo(pygame.sprite.Sprite):
     
@@ -82,7 +83,18 @@ class Enemigo(pygame.sprite.Sprite):
         self.velocidad_y = -1
         self.frame_tiempo_anterior = pygame.time.get_ticks()
         self.frame_tiempo_intervalo = 30
+        self.lives = 3
         
+    def esta_muerto(self):
+        return self.lives == 0
+        
+    def detectar_disparos(self, disparos:pygame.sprite.Group):    #ver si conviene hacerlo con el grupo de sprites
+        for disparo in disparos:
+            if self.rect.colliderect(disparo.rect):
+                self.lives -= 1
+    
+    
+    
     
     def aplicar_gravedad(self):
         if self.coord_y < ALTO_VENTANA - self.height: #aca estoy aplicando gravedad cuando el personaje salta o cuando no esta en el piso
@@ -132,6 +144,8 @@ class Enemigo(pygame.sprite.Sprite):
     def actualizar(self):
         self.controlar_limites_pantalla()
         self.mover()
+
+        
         
         
     @staticmethod
